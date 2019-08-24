@@ -18,7 +18,7 @@ const DEFAULT_CONFIGS_GENERATE_QUERY = {
 		initValues: undefined,
 		defaultValues: undefined,
 		isSkipKey: undefined,
-		requiredModel: undefined,
+		customIncludeOptions: undefined,
 		transformValue: undefined,
 		transformValueByKey: undefined,
 		transformKey: undefined,
@@ -102,6 +102,15 @@ function handleIncludeTransfromKey({ key }) {
 	return Utils.getLastKey(key)
 }
 
+const setCustomIncludeOptions = async (objData, argsCustomIncludeOptions) => {
+	const customOptions = await getCustomIncludeOptions(argsCustomIncludeOptions)
+	const customKeys = Object.keys(customOptions)
+	for (let i = 0; i < customKeys.length; i++) {
+		const key = customKeys[i]
+		_.set(objData, key, customOptions[key])
+	}
+}
+
 async function injectQueryInclude({
 	filtered,
 	include,
@@ -117,6 +126,7 @@ async function injectQueryInclude({
 			const { singular: modelName } = data.model.options.name
 			const modelPaths = initModelPaths || []
 			modelPaths.push(modelName)
+			const modelPath = modelPaths.join('.')
 			console.log(modelPaths)
 			const oldHandledKeys = cloneDeep(handledKeys)
 			let newHandledKeys = []
@@ -139,33 +149,35 @@ async function injectQueryInclude({
 				configs: {
 					...clonedConfigs,
 					isSkipKey({ key }) {
-						return !Utils.isKeyFilteredForModel(key, modelName)
+						const keyPaths = key.split('.')
+						keyPaths.pop()
+						return !(keyPaths.join('.') === modelPath)
 					},
 				},
 			})
 
-			const argsRequiredModelValue = {
+			const argsCustomIncludeOptions = {
 				configs: clonedConfigs,
 				modelName,
-				modelPath: modelPaths.join('.'),
+				modelPath,
 				model: data.model,
 				handledKeys,
 				filtered,
 			}
 
 			if (!isEmpty(condition) || Utils.isContainSymbol(condition)) {
-				const required = await getRequiredModelValue(argsRequiredModelValue)
 				handledKeys.push(...oriKeys)
 				_.set(data, ['where'], condition)
-				_.set(data, ['required'], required)
+				_.set(data, ['required'], true)
+				setCustomIncludeOptions(data, argsCustomIncludeOptions)
 			} else if (newHandledKeys.length > oldHandledKeys.length) {
-				const required = await getRequiredModelValue(argsRequiredModelValue)
 				/*
 				 set required parent model true jika child ada yg dihandle,
 				 kalau gk di set required true data yg tidak sesuai kondisi bakal
 				 tetep tampil dengan kondisi NULL
 				 */
-				_.set(data, ['required'], required)
+				_.set(data, ['required'], true)
+				setCustomIncludeOptions(data, argsCustomIncludeOptions)
 			}
 
 			if (!data.include) {
@@ -183,16 +195,13 @@ async function injectQueryInclude({
 	return handledKeys
 }
 
-async function getRequiredModelValue(options) {
+async function getCustomIncludeOptions(options) {
 	const { configs, modelPath } = options
-	const requiredValue = _.get(configs, ['requiredModel', modelPath])
+	const requiredValue = _.get(configs, ['customIncludeOptions', modelPath], {})
 	if (isFunction(requiredValue)) {
 		return await requiredValue(options)
-	} else if (isBoolean(requiredValue)) {
-		return requiredValue
 	}
-	// default true if handled
-	return true
+	return requiredValue
 }
 
 function filterIncludeHandledOnly({ include, filteredInclude }) {
