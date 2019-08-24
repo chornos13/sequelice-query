@@ -117,7 +117,6 @@ async function injectQueryInclude({
 	configs: clonedConfigs,
 	handledKeys,
 	initModelPaths,
-	countDeepInclude,
 }) {
 	handledKeys = handledKeys || []
 	if (include) {
@@ -138,7 +137,6 @@ async function injectQueryInclude({
 						configs: { ...clonedConfigs },
 						handledKeys,
 						initModelPaths: modelPaths,
-						countDeepInclude: modelPaths.length,
 					})
 				)
 			}
@@ -180,18 +178,15 @@ async function injectQueryInclude({
 				setCustomIncludeOptions(data, argsCustomIncludeOptions)
 			}
 
-			if (!data.include) {
-				/*
-				 back to previous model path since nothing included
-				 ex: Role.Status.Permission -X will be Role
-				 */
-				modelPaths.splice(
-					modelPaths.length - countDeepInclude,
-					modelPaths.length
-				)
+			if (initModelPaths) {
+				initModelPaths.splice(initModelPaths.length - 1, initModelPaths.length)
 			}
 		}
 	}
+	if (initModelPaths) {
+		initModelPaths.splice(initModelPaths.length - 1, initModelPaths.length)
+	}
+
 	return handledKeys
 }
 
