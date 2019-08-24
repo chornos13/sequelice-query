@@ -1,0 +1,26 @@
+{
+  "name": "sequelice-query",
+  "version": "1.0.0",
+  "description": "generate query object sequelize from url query",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chornos13/sequelice-query.git"
+  },
+  "keywords": [
+    "sequelize",
+    "query",
+    "sql",
+    "url",
+    "semplice"
+  ],
+  "author": "chornos13",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chornos13/sequelice-query/issues"
+  },
+  "homepage": "https://github.com/chornos13/sequelice-query#readme"
+}
