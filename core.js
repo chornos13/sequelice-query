@@ -1,10 +1,4 @@
-const {
-	cloneDeep,
-	isFunction,
-	isObject,
-	isEmpty,
-	isBoolean,
-} = require('lodash')
+const { cloneDeep, isFunction, isObject, isEmpty } = require('lodash')
 const { Operator } = require('./constants')
 const _ = require('lodash')
 const Utils = require('./utils/utils')
@@ -58,8 +52,8 @@ async function generate({ req, configs }) {
 		optFilterInject,
 		handleIncludeTransfromKey
 	)
-
 	await injectQueryInclude({
+		model,
 		filtered,
 		include,
 		configs: optFilterInject,
@@ -111,18 +105,38 @@ const setCustomIncludeOptions = async (objData, argsCustomIncludeOptions) => {
 	}
 }
 
+const getModelAssociationName = (parentModel, dataModel) => {
+	const { singular, plural } = dataModel.model.options.name
+	const listName = [singular, plural]
+	if (dataModel.as) {
+		listName.splice(0, 0, dataModel.as)
+	}
+	for (let i = 0; i < listName.length; i++) {
+		const curName = listName[i]
+		const curModel = parentModel.associations[curName]
+		if (curModel) {
+			return curName
+		}
+	}
+	return singular
+}
+
 async function injectQueryInclude({
 	filtered,
 	include,
 	configs: clonedConfigs,
 	handledKeys,
 	initModelPaths,
+	model,
 }) {
+	if (!model) {
+		throw new Error('model must be set in configs !')
+	}
 	handledKeys = handledKeys || []
 	if (include) {
 		for (let i = 0; i < include.length; i++) {
 			const data = include[i]
-			const { singular: modelName } = data.model.options.name
+			const modelName = getModelAssociationName(model, data)
 			const modelPaths = initModelPaths || []
 			modelPaths.push(modelName)
 			const modelPath = modelPaths.join('.')
@@ -132,6 +146,7 @@ async function injectQueryInclude({
 			if (data.include) {
 				newHandledKeys = cloneDeep(
 					await injectQueryInclude({
+						model: data.model,
 						filtered,
 						include: data.include,
 						configs: { ...clonedConfigs },
