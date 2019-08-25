@@ -1,6 +1,6 @@
 const { Operator } = require('../constants')
 const sequelize = require('sequelize')
-const { isObject, cloneDeep } = require('lodash')
+const { isObject } = require('lodash')
 const _ = require('lodash')
 const Utils = require('./utils')
 
@@ -58,14 +58,11 @@ class Helpers {
 					},
 					cont
 				)
-				if (newValue instanceof sequelize.Utils.Literal) {
-					return newValue
-				}
-
 				if (
-					isObject(newValue) &&
-					_.has(newValue, Operator.KEY) &&
-					_.has(newValue, Operator.VALUE)
+					newValue instanceof sequelize.Utils.Literal ||
+					(isObject(newValue) &&
+						_.has(newValue, Operator.KEY) &&
+						_.has(newValue, Operator.VALUE))
 				) {
 					return newValue
 				}
