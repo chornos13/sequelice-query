@@ -27,12 +27,16 @@ const DEFAULT_CONFIGS_GENERATE_QUERY = {
 	},
 }
 
-async function generate({ req, configs }) {
+async function generate({ req, model, configs }) {
+	if (!model) {
+		throw new Error('model must be set !')
+	}
+
 	const curConfigs = Object.assign(
 		cloneDeep(DEFAULT_CONFIGS_GENERATE_QUERY),
 		configs
 	)
-	const { include, model } = curConfigs
+	const { include } = curConfigs
 	const { filtered: filteredString, sorted: sorterdString } = req.query
 
 	const filtered = Utils.setDefaultValues({
@@ -129,9 +133,6 @@ async function injectQueryInclude({
 	initModelPaths,
 	model,
 }) {
-	if (!model) {
-		throw new Error('model must be set in configs !')
-	}
 	handledKeys = handledKeys || []
 	if (include) {
 		for (let i = 0; i < include.length; i++) {
