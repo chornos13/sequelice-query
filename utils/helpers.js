@@ -20,6 +20,16 @@ class Helpers {
 		const queries = Utils.parseQueryValueToJson(filterQuery)
 		return !!queries.find(x => x.id === id)
 	}
+
+	static addTicks(val) {
+		return `\`${val}\``
+	}
+
+	static getColumnQueryKey(key) {
+		const splitKeys = key.split('.')
+		const lastKey = this.addTicks(splitKeys.pop())
+		return [this.addTicks(splitKeys.join('->')), lastKey].join('.')
+	}
 }
 
 module.exports = Helpers
