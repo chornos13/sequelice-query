@@ -1,5 +1,7 @@
-const { Op } = require('sequelize')
+const { Op, DataTypes } = require('sequelize')
+const sequelize = require('sequelize')
 const Utils = require('./utils')
+const Helpers = require('./helpers')
 
 class FilterHelpers {
 	static async convertKey(argsConvert) {
@@ -30,6 +32,7 @@ class FilterHelpers {
 	static async convertValue(argsConvert) {
 		const { key, value, model } = argsConvert
 		const type = Utils.getTypeKey(model, key)
+		const { singular } = model.options.name
 		const argsTransform = { ...argsConvert, type }
 		const transformValueByKey = await Utils.handleTransformByKey(
 			'transformValueByKey',
@@ -50,13 +53,20 @@ class FilterHelpers {
 		}
 
 		// TODO: kondisi dengan instanceof
-		switch (type) {
-			default:
-				if (Utils.isIdKey(key)) {
-					return { [Op.eq]: value }
-				}
-				return { [Op.like]: `%${value}%` }
+		if (Utils.isIdKey(key)) {
+			return { [Op.eq]: value }
+		} else if (type instanceof DataTypes.DATE) {
+			let qKey = key
+			if (key.split('.').length === 1) {
+				qKey = [singular, key].join('.')
+			}
+			return sequelize.literal(
+				`date_format(${Helpers.getColumnQueryKey(
+					qKey
+				)}, '%d/%m/%Y') LIKE '%${value}%'`
+			)
 		}
+		return { [Op.like]: `%${value}%` }
 	}
 }
 
