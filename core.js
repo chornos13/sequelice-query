@@ -7,7 +7,6 @@ const SortHelpers = require('./utils/sorthelpers')
 
 const DEFAULT_CONFIGS_GENERATE_QUERY = {
 	include: undefined,
-	model: undefined,
 	optFilter: {
 		initValues: undefined,
 		defaultValues: undefined,
@@ -36,8 +35,12 @@ async function generate({ req, model, configs }) {
 		cloneDeep(DEFAULT_CONFIGS_GENERATE_QUERY),
 		configs
 	)
-	const { include } = curConfigs
-	const { filtered: filteredString, sorted: sorterdString } = req.query
+	let { include } = curConfigs
+	include = include || []
+
+	const { filtered: filteredString, sorted: sorterdString } = req
+		? req.query
+		: {}
 
 	const filtered = Utils.setDefaultValues({
 		queryString: filteredString,
@@ -141,7 +144,6 @@ async function injectQueryInclude({
 			const modelPaths = initModelPaths || []
 			modelPaths.push(modelName)
 			const modelPath = modelPaths.join('.')
-			console.log(modelPaths)
 			const oldHandledKeys = cloneDeep(handledKeys)
 			let newHandledKeys = []
 			if (data.include) {

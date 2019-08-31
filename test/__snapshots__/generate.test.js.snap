@@ -1,0 +1,520 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic config test should return all include condition 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "lastName": Object {
+              Symbol(like): "%keen%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "DepartementId": Object {
+          Symbol(eq): "1",
+        },
+      },
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "salary": Object {
+                  Symbol(like): "%5000000%",
+                },
+              },
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "title": Object {
+                  Symbol(like): "%librarian%",
+                },
+              },
+            },
+          ],
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "firstName": Object {
+              Symbol(like): "%anna%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "EmployeeId": Object {
+          Symbol(eq): "2",
+        },
+      },
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "lastName": Object {
+              Symbol(like): "%keen%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "DepartementId": Object {
+          Symbol(eq): "1",
+        },
+      },
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "salary": Object {
+                  Symbol(like): "%5000000%",
+                },
+              },
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "title": Object {
+                  Symbol(like): "%librarian%",
+                },
+              },
+            },
+          ],
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "firstName": Object {
+              Symbol(like): "%anna%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "EmployeeId": Object {
+          Symbol(eq): "2",
+        },
+      },
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test should return include with condition if include has query 1`] = `
+Array [
+  Object {
+    "include": Array [
+      Object {
+        "model": [Function],
+      },
+    ],
+    "model": [Function],
+  },
+  Object {
+    "include": Array [
+      Object {
+        "include": Array [
+          Object {
+            "model": [Function],
+          },
+          Object {
+            "as": "JobTitles",
+            "model": [Function],
+          },
+        ],
+        "model": [Function],
+        "required": true,
+        "where": Object {
+          "nama": Object {
+            Symbol(like): "%anna%",
+          },
+        },
+      },
+    ],
+    "model": [Function],
+    "required": true,
+  },
+]
+`;
+
+exports[`basic config test test include condition 0.(DepartementManagers, DepartementId, 1) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "DepartementId": Object {
+          Symbol(eq): "1",
+        },
+      },
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+            },
+          ],
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "DepartementId": Object {
+          Symbol(eq): "1",
+        },
+      },
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test test include condition 1.(DepartementManagers.Employee, lastName, keen) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "lastName": Object {
+              Symbol(like): "%keen%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+            },
+          ],
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "lastName": Object {
+              Symbol(like): "%keen%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test test include condition 2.(DepartementEmployees, EmployeeId, 2) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+            },
+          ],
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "EmployeeId": Object {
+          Symbol(eq): "2",
+        },
+      },
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "model": [Function],
+      "required": true,
+      "where": Object {
+        "EmployeeId": Object {
+          Symbol(eq): "2",
+        },
+      },
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test test include condition 3.(DepartementEmployees.Employee, firstName, anna) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+            },
+          ],
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "firstName": Object {
+              Symbol(like): "%anna%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+          "required": true,
+          "where": Object {
+            "firstName": Object {
+              Symbol(like): "%anna%",
+            },
+          },
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test test include condition 4.(DepartementEmployees.Employee.Salaries, salary, 5000000) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "salary": Object {
+                  Symbol(like): "%5000000%",
+                },
+              },
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+            },
+          ],
+          "model": [Function],
+          "required": true,
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "salary": Object {
+                  Symbol(like): "%5000000%",
+                },
+              },
+            },
+          ],
+          "model": [Function],
+          "required": true,
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
+
+exports[`basic config test test include condition 5.(DepartementEmployees.Employee.JobTitles, title, librarian) 1`] = `
+Object {
+  "include": Array [
+    Object {
+      "include": Array [
+        Object {
+          "model": [Function],
+        },
+      ],
+      "model": [Function],
+    },
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "model": [Function],
+            },
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "title": Object {
+                  Symbol(like): "%librarian%",
+                },
+              },
+            },
+          ],
+          "model": [Function],
+          "required": true,
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "includeCount": Array [
+    Object {
+      "include": Array [
+        Object {
+          "include": Array [
+            Object {
+              "as": "JobTitles",
+              "model": [Function],
+              "required": true,
+              "where": Object {
+                "title": Object {
+                  Symbol(like): "%librarian%",
+                },
+              },
+            },
+          ],
+          "model": [Function],
+          "required": true,
+        },
+      ],
+      "model": [Function],
+      "required": true,
+    },
+  ],
+  "queryFilter": Object {},
+  "querySort": Array [],
+}
+`;
