@@ -62,7 +62,8 @@ class Helpers {
 					newValue instanceof sequelize.Utils.Literal ||
 					(isObject(newValue) &&
 						_.has(newValue, Operator.KEY) &&
-						_.has(newValue, Operator.VALUE))
+						_.has(newValue, Operator.VALUE)) ||
+					newValue === Operator.CONTINUE
 				) {
 					return newValue
 				}
