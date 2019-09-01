@@ -268,7 +268,7 @@ const condition = await sQuery.generate({
                     }
                     /*
                        return cont value if you want to continue to next function transformValue,
-                       if it's return undefined then it will no handle anything nor 
+                       if it's return undefined then it will not handle anything nor 
                        to next function transformValue
                     */
                     return cont 
