@@ -177,7 +177,7 @@ data: [
 */
 ```
 
-so basically initValues is just initialization your condition if there's none filter condition request by user
+so basically initValues is just initialization your condition if there's no filter condition request by user
 
 
 
@@ -246,7 +246,7 @@ args = {
 cont //return this value if you want to continue to next function transformValue
 
 ```
-Access URL: `/departement`
+Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
 
 ```javascript
 const condition = await sQuery.generate({
@@ -257,6 +257,7 @@ const condition = await sQuery.generate({
             transformValue: [
                 sQuery.Helpers.handlePrefix('between', (args, cont) => {
                     const { key, value } = args
+                    // handle only with column 'Departement.id'
                     if (key === 'Departement.id') {
                         const [from, to] = value
                         return sequelize.literal(
@@ -267,7 +268,8 @@ const condition = await sQuery.generate({
                     }
                     /*
                        return cont value if you want to continue to next function transformValue,
-                       if it's return undefined then it will no handle anything nor to next function transformValue
+                       if it's return undefined then it will no handle anything nor 
+                       to next function transformValue
                     */
                     return cont 
                 }),
