@@ -113,8 +113,8 @@ describe('basic config test', () => {
 	})
 
 	test(
-		'should return empty array or object if ' +
-			'not passing req.query or empty req.query obj',
+		'should return empty array or' +
+			'object if not passing req.query or empty req.query obj',
 		async function() {
 			const defaultCondition = {
 				includeCount: [],

@@ -117,7 +117,7 @@ optSorted | Object | optSorted options
 
 lets say we have table and data like this for example:
 
-**Departement**
+`Departement`
 
 id | name | createdAt | updatedAt 
 --- | --- | --- | ---
@@ -138,7 +138,7 @@ transformValueByKey| object
 transformKey| Function, Array Function
 transformKeyByKey| object
 
-##### #initValues
+#### #initValues: object
 Access URL: `/departement`
 
 ```javascript
@@ -181,7 +181,7 @@ so basically initValues is just initialization your condition if there's no filt
 
 
 
-##### #defaultValues
+#### #defaultValues: object
 Access URL: `/departement`
 
 ```javascript
@@ -229,8 +229,7 @@ result
 if no condition for `name` then the default values is `LIKE %u%`
 
 
-##### #transformValue
-function (args, cont)
+#### #transformValue: array, function (args, cont)
 
 ```javascript
 args = {
@@ -267,7 +266,8 @@ const condition = await sQuery.generate({
                         )
                     }
                     /*
-                       return cont value if you want to continue to next function transformValue,
+                       return cont value if you want to continue to next function transformValue
+                       or handle by default,
                        if it's return undefined then it will not handle anything nor 
                        to next function transformValue
                     */
@@ -307,6 +307,155 @@ result
 */
 ```
 
+#### #transformValueByKey: object, value: function (args, cont)
+
+Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
+
+```javascript
+const condition = await sQuery.generate({
+    req,
+    model: Departement,
+    configs: {
+        optFilter: {
+            transformValueByKey: {
+                ['between$id']: args => {
+                    const { value } = args
+                    const [from, to] = value
+                    return sequelize.literal(
+                        `${sQuery.Helpers.getColumnQueryKey(
+                            'id'
+                        )} between '${from}' and '${to}'`
+                    )
+                },
+            },
+        },
+    },
+})
+
+const { include, queryFilter: where, querySort: order } = condition
+
+const data = await Departement.findAll({
+    include,
+    where,
+    order,
+})
+
+return data
+
+/*
+result
+"data": [
+    {
+        "id": 2,
+        "name": "Niku",
+        "createdAt": "2019-08-24T20:14:57.000Z",
+        "updatedAt": "2019-08-24T20:14:57.000Z"
+    },
+    {
+        "id": 3,
+        "name": "Kuma",
+        "createdAt": "2019-08-24T20:09:37.000Z",
+        "updatedAt": "2019-08-24T20:09:40.000Z"
+    }
+]
+*/
+```
+it's same like transformValue but with spesific key
+
+#### #transformKey: array function (args, cont) | function (args, cont)
+
+```javascript
+const condition = await sQuery.generate({
+    req,
+    model: Departement,
+    configs: {
+        optFilter: {
+            transformKey: [
+                (args, cont) => {
+                    const { key } = args
+                    if (key === 'between$id') {
+                        return 'id'
+                    }
+                    /*
+                        return cont to continue to next transformKey function
+                        or to handle by default
+                        if it's return undefined then it will not handle anything nor
+                        to next function transformValue
+                     */
+                    return cont
+                },
+            ],
+            transformValueByKey: {
+                ['between$id']: args => {
+                    const { newKey, value } = args // newKey is from transformKeyByKey
+                    const [from, to] = value
+                    return sequelize.literal(
+                        `${sQuery.Helpers.getColumnQueryKey(
+                            newKey
+                        )} between '${from}' and '${to}'`
+                    )
+                },
+            },
+        },
+    },
+})
+
+const { include, queryFilter: where, querySort: order } = condition
+
+const data = await Departement.findAll({
+    include,
+    where,
+    order,
+})
+
+return data
+```
+
+
+#### #transformKeyByKey: object, value: `function (args) | string`
+
+```javascript
+const condition = await sQuery.generate({
+    req,
+    model: Departement,
+    configs: {
+        optFilter: {
+            transformKeyByKey: {
+                ['between$id']: (args) => {
+                    // args:
+                    // { key: 'between$id',
+                    // 	value: [ 2, 3 ],
+                    // 	configs:
+                    // 	{ transformKeyByKey: [Object], transformValueByKey: [Object] },
+                    // 	include: [],
+                    // 	model: Departement }
+                    
+                    // do whatever you want to transform key
+                    return 'id'
+                },
+            },
+            transformValueByKey: {
+                ['between$id']: args => {
+                    const { newKey, value } = args // newKey is from transformKeyByKey
+                    const [from, to] = value
+                    return sequelize.literal(
+                        `${sQuery.Helpers.getColumnQueryKey(
+                            newKey
+                        )} between '${from}' and '${to}'`
+                    )
+                },
+            },
+        },
+    },
+})
+```
+
+```javascript
+//or simply just passing string
+transformKeyByKey: {
+    ['between$id']: 'id',
+}
+```
 
 #### optSorted options and example
 
