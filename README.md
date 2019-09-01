@@ -229,7 +229,7 @@ result
 if no condition for `name` then the default values is `LIKE %u%`
 
 
-#### #transformValue: array, function (args, cont)
+#### #transformValue: array function (args, cont) | function (args, cont)
 
 ```javascript
 args = {
@@ -242,7 +242,13 @@ args = {
     type: INTEGER //type column STRING/INTEGER/DATE .etc
 }
 
-cont //return this value if you want to continue to next function transformValue
+/*
+   return cont value if you want to continue to next function transformValue
+   or handle by default,
+   if it's return undefined then it will not handle anything nor 
+   to next function transformValue
+*/
+cont 
 
 ```
 Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
@@ -307,7 +313,7 @@ result
 */
 ```
 
-#### #transformValueByKey: object, value: function (args, cont)
+#### #transformValueByKey: object, `value: function (args, cont)`
 
 Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
 
@@ -362,7 +368,7 @@ result
 ```
 it's same like transformValue but with spesific key
 
-#### #transformKey: array function (args, cont) | function (args, cont)
+#### #transformKey: function (args, cont) | array function (args, cont)
 
 ```javascript
 const condition = await sQuery.generate({
@@ -412,7 +418,7 @@ return data
 ```
 
 
-#### #transformKeyByKey: object, value: `function (args) | string`
+#### #transformKeyByKey: object, `value: function (args) | string`
 
 ```javascript
 const condition = await sQuery.generate({
