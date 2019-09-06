@@ -139,7 +139,7 @@ transformKey| Function, Array Function
 transformKeyByKey| object
 
 #### #initValues: object
-Access URL: `/departement`
+GET URL: `/departement`
 
 ```javascript
 const condition = await sQuery.generate({
@@ -182,7 +182,7 @@ so basically initValues is just initialization your condition if there's no filt
 
 
 #### #defaultValues: object
-Access URL: `/departement`
+GET URL: `/departement`
 
 ```javascript
 const condition = await sQuery.generate({
@@ -228,6 +228,71 @@ result
 
 if no condition for `name` then the default values is `LIKE %u%`
 
+#### #isSkipKey: function(args)
+
+```javascript
+const condition = await sQuery.generate({
+    req,
+    model: Departement,
+    configs: {
+        optFilter: {
+            isSkipKey: (args) => {
+                /*
+                    { args:
+                       { key: 'DepartementEmployees.id',
+                         value: 5,
+                         configs:
+                          { isSkipKey: [Function: isSkipKey],
+                            transformValue: [Array],
+                            customIncludeOptions: [Object] },
+                         include: [ [Object], [Object] ] } 
+                    }
+                */
+
+                // return true to skip the key
+                return true
+            },
+        },
+    },
+})
+```
+
+#### #customIncludeOptions: function(args)
+
+```javascript
+const condition = await sQuery.generate({
+    req,
+    model: Departement,
+    configs: {
+        optFilter: {
+            customIncludeOptions: {
+                // Model name if its 1:M than use plural if 1:1 use singular name
+                // or u can see from result data, what is properties name for that model
+                ['DepartementEmployees']: args => {
+                    /*
+                        { args:
+                             { configs:
+                                    { transformValue: [Array],
+                                        customIncludeOptions: [Object],
+                                        transformKey: [Function: handleIncludeTransfromKey] },
+                                 modelName: 'DepartementEmployees',
+                                 modelPath: 'DepartementEmployees',
+                                 model: DepartementEmployee,
+                                 handledKeys: [ 'DepartementEmployees.id' ],
+                                 filtered: [ [Object] ] }
+                         }
+                     */
+
+                    // return custom obj include
+                    return {
+                        required: false,
+                    }
+                },
+            },
+        },
+    },
+})
+```
 
 #### #transformValue: array function (args, cont) | function (args, cont)
 
@@ -251,7 +316,7 @@ args = {
 cont 
 
 ```
-Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
+GET URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
 
 ```javascript
 const condition = await sQuery.generate({
@@ -315,7 +380,7 @@ result
 
 #### #transformValueByKey: object, `value: function (args, cont)`
 
-Access URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
+GET URL: `/departement?filtered=[{"id":"between$id", "value":[2, 3]}]`
 
 ```javascript
 const condition = await sQuery.generate({
