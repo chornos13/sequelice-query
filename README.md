@@ -264,6 +264,12 @@ const condition = await sQuery.generate({
     req,
     model: Departement,
     configs: {
+        include: [
+            {
+                model: DepartementEmployee,
+                //customIncludeOptions will goes here
+            }
+        ],
         optFilter: {
             customIncludeOptions: {
                 // Model name if its 1:M than use plural if 1:1 use singular name
