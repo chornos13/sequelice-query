@@ -113,7 +113,7 @@ key | value | description
 --- | --- | ---
 include | Array Object/Model | use as usual in the sequelize
 optFilter | Object | optFilter options 
-optSort | Object | optSorted options
+optSort | Object | optSort options
 
 lets say we have table and data like this for example:
 
