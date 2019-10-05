@@ -9,7 +9,7 @@ Sequelice-Query is a helpers that simplify querying Sequelize from Query URL
 ### Query String
 Sequelice-Query read key `filtered` and `sorted` from URL Query for example:
 
-`http://example.com?filtered=[{"id:"firstName", "value":"john"}]&sorted=[{"id:"id", "desc":true"}]`
+`http://example.com?filtered=[{"id":"firstName", "value":"john"}]&sorted=[{"id":"id", "desc":true}]`
 
 both of them is JSON Stringify Array and it's contain object:
 
