@@ -1,4 +1,6 @@
 # Sequelice-Query
+[![npm version](https://img.shields.io/npm/v/sequelice-query.svg?style=flat-square)](https://www.npmjs.org/package/sequelice-query)
+[![npm downloads](https://img.shields.io/npm/dm/sequelice-query.svg?style=flat-square)](http://npm-stat.com/charts.html?package=sequelice-query)
 
 Sequelice-Query is a helpers that simplify querying Sequelize from Query URL
 
