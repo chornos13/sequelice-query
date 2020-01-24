@@ -1,4 +1,6 @@
 # Sequelice-Query
+[![npm version](https://img.shields.io/npm/v/sequelice-query.svg?style=flat-square)](https://www.npmjs.org/package/sequelice-query)
+[![npm downloads](https://img.shields.io/npm/dm/sequelice-query.svg?style=flat-square)](http://npm-stat.com/charts.html?package=sequelice-query)
 
 Sequelice-Query is a helpers that simplify querying Sequelize from Query URL
 
@@ -9,7 +11,7 @@ Sequelice-Query is a helpers that simplify querying Sequelize from Query URL
 ### Query String
 Sequelice-Query read key `filtered` and `sorted` from URL Query for example:
 
-`http://example.com?filtered=[{"id:":"firstName", "value":"john"}]&sorted=[{"id:":"id", "desc":true"}]`
+`http://example.com?filtered=[{"id":"firstName", "value":"john"}]&sorted=[{"id":"id", "desc":true}]`
 
 both of them is JSON Stringify Array and it's contain object:
 
@@ -113,7 +115,7 @@ key | value | description
 --- | --- | ---
 include | Array Object/Model | use as usual in the sequelize
 optFilter | Object | optFilter options 
-optSorted | Object | optSorted options
+optSort | Object | optSort options
 
 lets say we have table and data like this for example:
 
@@ -534,7 +536,7 @@ transformKeyByKey: {
 }
 ```
 
-#### optSorted options and example
+#### optSort options and example
 
 key | value
 --- | --- 
