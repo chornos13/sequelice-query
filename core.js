@@ -36,7 +36,7 @@ async function generate({ req, model, configs }) {
 		configs
 	)
 	let { include } = curConfigs
-	include = include || []
+	include = cloneDeep(include || [])
 
 	const { filtered: filteredString, sorted: sorterdString } = req
 		? req.query
